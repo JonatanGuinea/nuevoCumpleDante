@@ -13,7 +13,7 @@ export default function Confirmacion() {
 
   const fetchConfirmaciones = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/confirmaciones");
+      const res = await fetch("https://backend-dante.onrender.com/api/confirmaciones");
       const data = await res.json();
       setConfirmaciones(data);
     } catch (error) {
@@ -29,7 +29,7 @@ export default function Confirmacion() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/confirmar", {
+      const response = await fetch("https://backend-dante.onrender.com/api/confirmar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

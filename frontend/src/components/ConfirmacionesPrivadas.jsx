@@ -9,7 +9,7 @@ export default function ConfirmacionesPrivadas() {
 
   const fetchConfirmaciones = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/confirmaciones");
+      const res = await fetch("https://backend-dante.onrender.com/api/confirmaciones");
       const data = await res.json();
       setConfirmaciones(data);
     } catch (error) {
