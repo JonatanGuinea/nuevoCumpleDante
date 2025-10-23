@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "../App.css"; // tu CSS con animaciones, estrellas y fade-in
+import Swal from "sweetalert2";
+import "../App.css"; // CSS con animaciones y estrellas
 
 export default function Confirmacion() {
   const [formData, setFormData] = useState({ nombre: "", cantidad: "" });
@@ -25,58 +26,71 @@ export default function Confirmacion() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    try {
-      const response = await fetch("https://backend-dante.onrender.com/api/confirmar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
 
-      const data = await response.json();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      if (response.ok) {
-        triggerStars(); // 🎆 Fuegos artificiales
-        alert(`¡Gracias ${formData.nombre}! Registraste ${formData.cantidad} persona(s) 🎉`);
+  try {
+    const response = await fetch("https://backend-dante.onrender.com/api/confirmar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // Mostrar SweetAlert primero
+      Swal.fire({
+        title: `¡Gracias ${formData.nombre}!`,
+        text: `Registraste ${formData.cantidad} persona(s) 🎉`,
+        icon: "success",
+        confirmButtonText: "¡Genial!"
+      }).then(() => {
+        // 🎆 Fuegos artificiales se disparan al cerrar
+        triggerStars();
         setFormData({ nombre: "", cantidad: "" });
         fetchConfirmaciones(); // actualizar lista
-      } else {
-        alert(`Error: ${data.message}`);
-      }
-    } catch (error) {
-      alert("Error al enviar la confirmación.");
-      console.error(error);
+      });
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: data.message,
+        icon: "error",
+      });
     }
-  };
+  } catch (error) {
+    Swal.fire({
+      title: "Error",
+      text: "Hubo un problema al enviar la confirmación.",
+      icon: "error",
+    });
+    console.error(error);
+  }
+};
 
-  // 🎆 Función para generar fuegos artificiales
+
+  // 🎆 Fuegos artificiales desde el centro
   const triggerStars = () => {
     const newStars = Array.from({ length: 25 }).map(() => {
-      const x = (Math.random() - 0.5) * 800; // dirección horizontal
-      const y = -Math.random() * 200 - 10; // dirección vertical
-      const size = 8 + Math.random() * 12; 
-      const duration = 5;
+      const x = (Math.random() - 0.5) * 400; // horizontal
+      const y = -(Math.random() * 300 + 50); // vertical
+      const size = 8 + Math.random() * 12;
+      const duration = 2 + Math.random() * 1.5;
 
-      return {
-        id: Math.random(),
-        x,
-        y,
-        size,
-        duration,
-      };
+      return { id: Math.random(), x, y, size, duration };
     });
-    setStars(newStars);
 
-    setTimeout(() => setStars([]), 5000);
+    setStars(newStars);
+    setTimeout(() => setStars([]), 2500);
   };
 
   return (
     <div className="tarjeta-container" style={{ position: "relative", overflow: "hidden" }}>
       <h1 className="titulo">¡Te espero 🎂!</h1>
-
-      {/* 🎆 Contenedor de fuegos artificiales */}
+      
+      {/* 🎆 Fuegos artificiales */}
       <div className="stars-container">
         {stars.map((star) => (
           <span
@@ -106,9 +120,9 @@ export default function Confirmacion() {
           name="nombre"
           value={formData.nombre}
           onChange={handleChange}
-          required
           placeholder="Ej: Dante Guinea"
-          />
+          required
+        />
         <label htmlFor="cantidad">¿Con cuántas personas venís?</label>
         <input
           type="number"
@@ -118,13 +132,13 @@ export default function Confirmacion() {
           max="10"
           value={formData.cantidad}
           onChange={handleChange}
-          required
           placeholder="Ej: 3"
+          required
         />
         <button type="submit">Confirmar 🎉</button>
       </form>
+
       <img src="/img/animales/footer.png" alt="" className="footer-img" />
     </div>
-    
   );
 }
