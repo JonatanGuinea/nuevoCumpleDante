@@ -1,0 +1,574 @@
+body {
+  margin: 0;
+  flex-direction: column;
+  font-family: "Chewy", cursive;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: conic-gradient(
+    from 170deg at 50% 50%,
+    #1B5E20,
+    #b0ff7c,
+    #2E7D32,
+    #A5D6A7,
+    #FFFFFF,
+    #ffc371,
+    #d4af37ea,
+    #d4af3760,
+    #d4af37ea,
+    #ffc371,
+    #FFFFFF,
+    #7cffb3,
+    #b0ff7c,
+    #2E7D32,
+    #1B5E20
+  );
+}
+
+.first-img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  max-width: 550px;
+  z-index: 0;
+  border-bottom: 2px solid #FFFFFF;
+
+  /* Fade más pequeño en el borde inferior */
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1)70%, rgba(0,0,0,0) 100%);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+  mask-repeat: no-repeat;
+  mask-size: cover;
+}
+
+
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#root{
+  width: 100%;
+}
+/* @keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+.header-img{
+  position: absolute;
+  max-width: 550px;
+  left:50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: auto; 
+  display: block;
+  z-index: 1;
+}
+
+.tarjeta {  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  width: 100%; 
+  padding-block: 2rem 26rem;
+
+}
+
+
+/* Texto infantil colorido */
+.tarjeta h1 {
+
+  position: absolute;
+  top: 80px;
+  text-align: center;
+  font-family: "Chewy", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #f3d3a5,
+    #7afcff,
+    #8f7aff,
+    #92ff5f
+  );
+  background-size: 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tarjeta .dos{
+  z-index: 1;
+    position: absolute;
+    top: 140px;
+}
+
+/* Estrellas cayendo */
+.stars {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  top: -10px;
+  left: calc(100% * var(--x));
+  opacity: 0.8;
+  box-shadow: 0 0 10px white, 0 0 20px white;
+  animation: fallStar 4s linear forwards, twinkle 1s ease-in-out infinite;
+  z-index: 5;
+}
+
+@keyframes fallStar {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+/*  Transición de texto */
+.fade-text ,p{
+  animation: fade 1s ease-in-out;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+.fade-text, p{
+  font-size: 2rem;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.bloque {
+  top: 400px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+
+
+/* Fotos individuales */
+.foto {
+  position: absolute;
+  width: 280px;
+  border-radius: 12px;
+  opacity: 0;
+  transform: translateY(100px) rotate(var(--rot, 0deg)) translateX(var(--offsetX, 0));
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Cuando aparecen */
+.foto.visible {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--rot, 0deg)) translateX(var(--offsetX, 0));
+}
+
+/* Frase entre grupos */
+.frase {
+  margin-top: 60px;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #444;
+  opacity: 0;
+  animation: fadeInText 1.5s ease forwards;
+  animation-delay: 2s;
+}
+
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/*PILA DE FOTOS EN CASCADA */
+.stack {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  perspective: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Cada foto se apila ligeramente desfasada */
+.foto {
+  position: absolute;
+  width: 280px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 16px;
+  opacity: 0;
+  transform: translateY(100px) rotate(var(--rot, 0deg)) translateX(var(--offsetX, 0));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: var(--z, 1);
+  padding: 10px 10px 100px 10px !important;
+  background-color: #fff;
+}
+
+/* Cuando la foto se hace visible */
+.foto.visible {
+  opacity: 1;
+  transform: translateY(var(--y, 0)) rotate(var(--rot, 0deg)) translateX(var(--offsetX, 0));
+}
+
+/* Efecto de "caída en cascada" */
+.foto.visible:nth-child(1) { transition-delay: 1s; }
+.foto.visible:nth-child(2) { transition-delay: 2s; }
+.foto.visible:nth-child(3) { transition-delay: 3s; }
+.foto.visible:nth-child(4) { transition-delay: 4s; }
+.foto.visible:nth-child(5) { transition-delay: 5s; }
+.foto.visible:nth-child(6) { transition-delay: 6s; }
+.foto.visible:nth-child(7) { transition-delay: 7s; }
+
+
+/* Pequeño efecto flotante (vida) */
+.foto.visible {
+  animation: flotar 5s ease-in-out infinite alternate;
+}
+
+@keyframes flotar {
+  0% {
+    transform: translateY(0) rotate(var(--rot, 0deg)) translateX(var(--offsetX, 0));
+  }
+  100% {
+    transform: translateY(-10px) rotate(calc(var(--rot, 0deg) + 1deg)) translateX(var(--offsetX, 0));
+  }
+}
+
+/* Texto entre grupos */
+.frase {
+  margin-top: 10px;
+  font-size: 2rem;
+  font-style: italic;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: aparecerTexto 2s ease forwards;
+  animation-delay: 1.5s;
+}
+
+@keyframes aparecerTexto {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  padding: 1rem;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 400px;
+  margin-inline: auto;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.685);
+  color: white;
+  text-align: left;
+  margin: 20px;
+  margin-bottom: 110px;
+  padding-bottom:70px;
+}
+
+.formulario h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+.formulario label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #ffdb6d;
+}
+
+.formulario input {
+  width: 90%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: chewy ;
+  background-color: #176e31cc;
+}
+
+.formulario input::placeholder {
+  color: #bfe7c1ab; /* Verde medio */
+  opacity: 1; /* Asegura que no se vea demasiado claro */
+}
+
+
+:root {
+  --verde-principal: #2E7D32;
+  --verde-suave: #A5D6A7;
+  --blanco: #FFFFFF;
+  --dorado: #D4AF37;
+  --verde-oscuro: #1B5E20;
+}
+
+.formulario button {
+  width: 65%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background: #2b6e17;
+  transition: 0.3s;
+  background-color: var(--dorado);
+  color: var(--blanco);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.formulario button:hover {
+  background: #176e31;
+  transform: scale(1.05);
+    background-color: var(--verde-principal);
+  color: var(--blanco);
+}
+
+.safari-img{
+  position: absolute;
+  bottom: 150px;
+  right:20%;
+  width: 150px;
+  height: auto;
+}
+
+
+/* Fade-in para cada confirmación */
+.lista-confirmaciones li {
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 0.5s forwards;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+/* Animación de fade-in */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estrella que aparece al lado de cada confirmación */
+.lista-confirmaciones li::after {
+  content: "⭐";
+  position: absolute;
+  right: -20px;
+  top: 0;
+  animation: twinkle 1.5s infinite alternate;
+  font-size: 1.2rem;
+}
+
+/* Animación de brillo
+@keyframes twinkle {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+} */
+
+
+/* Contenedor de estrellas
+.stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; para que no interfiera con el formulario
+  overflow: hidden;
+} 
+
+/* Cada estrella */
+/* .star {
+  position: absolute;
+  font-size: 1rem;
+  color: gold;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  opacity: 0;
+} */
+
+/* Animación de caída */
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+
+.footer-img {
+  position: absolute;
+  bottom: 0;           /* Pega la imagen al fondo del contenedor */
+  left: 50%;           /* La centra horizontalmente */
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+
+@keyframes fallStar {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120vh);
+    opacity: 0;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+
+
+/* 🎆 Contenedor de estrellas/fuegos artificiales */
+.stars-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* ⚠️ Esto evita que bloqueen los clics del botón */
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* 🌟 Estrella animada */
+.star {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  animation: firework 1.5s ease-out forwards;
+  color: gold;
+  text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px orange;
+  z-index: 2;
+}
+
+/* ✨ Animación de explosión */
+/* Animación aleatoria de “fuegos artificiales” */
+@keyframes firework {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(0.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(var(--x), var(--y)) rotate(180deg) scale(2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--x) * 1.5), calc(var(--y) * 1.5)) rotate(360deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+
+.tarjeta-container-confirmaciones{
+  background-color: #444;
+}
+
+.tarjeta-containes{
+  top:80px;
+}
